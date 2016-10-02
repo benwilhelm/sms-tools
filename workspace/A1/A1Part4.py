@@ -1,8 +1,11 @@
+from math import ceil
+import numpy as np
 import sys
 import os
 sys.path.append('../../software/models/')
 from utilFunctions import wavread, wavwrite
 from A1Part3 import hopSamples
+
 
 """
 A1-Part-4: Downsampling audio: Changing the sampling rate
@@ -25,4 +28,23 @@ def downsampleAudio(inputFile, M):
         inputFile: file name of the wav file (including path)
         	M: downsampling factor (positive integer)
     """
-    ## Your code here
+    (fsIn, xIn) = wavread(inputFile)
+    fsOut = fsIn / M
+    xOut = hopSamples(xIn, M)
+    outputFile = __outputPath(inputFile)
+    wavwrite(xOut, fsOut, outputFile)
+    
+
+def __outputPath(inputPath, suffix="_downsampled"):
+    """
+    Inputs:
+        inputPath: String path, relative or absolute
+    Output:
+        outputPath: inputPath appended with <suffix> before the file extension
+            eg. '../../piano.wav' => '../../piano_downsampled.wav'
+    """
+    f, ext = inputPath.rsplit('.', 1)
+    f = f + suffix
+    return '.'.join([f, ext])
+    
+    
