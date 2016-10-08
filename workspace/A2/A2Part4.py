@@ -36,7 +36,7 @@ def IDFT(X):
     N = len(X)
     
     for k in range(N):
-        s = np.exp( 1j * 2*np.pi * k * np.arange(N)/N )
+        s = X[k] * np.exp( 1j * 2*np.pi * k * np.arange(N)/N )
         x = np.append(x, np.sum(s) / N )
     
     return x
