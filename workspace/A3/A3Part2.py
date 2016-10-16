@@ -55,4 +55,21 @@ def optimalZeropad(x, fs, f):
         mX (numpy array) = The positive half of the DFT spectrum of the N point DFT after zero-padding 
                         x appropriately (zero-padding length to be computed). mX is (N/2)+1 samples long
     """
-    ## Your code here
+    
+    # get period of signal 
+    M = len(x)
+    p = fs / f 
+    
+    # pad x to be multiple of period ( modulo )
+    # np.pad is throwing an attribue error, so creating a separate pad array 
+    # and concatenating
+    padLength = p - ( M % p )
+    z = np.zeros(padLength)
+    x = np.concatenate((x, z))
+    
+    # take DFT of new signal
+    dft = fft(x)
+    
+    # return log-based magnitude spectrum
+    dftLength = len(dft) / 2 + 1
+    return 20 * np.log10( np.abs( dft[:dftLength] ) )
