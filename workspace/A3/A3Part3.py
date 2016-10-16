@@ -1,4 +1,5 @@
 import numpy as np
+import assignmentUtilities as autil
 from scipy.fftpack import fft, fftshift
 import math
 
@@ -48,4 +49,10 @@ def testRealEven(x):
         dftbuffer (numpy array, possibly complex) = The M point zero phase windowed version of x 
         X (numpy array, possibly complex) = The M point DFT of dftbuffer 
     """
-    ## Your code here
+    
+    dftbuffer = autil.zeroPhaseWindow(x)
+    X = fft(dftbuffer)
+    isEven = autil.isEvenFunction(np.imag(X), 1e-6)
+    
+    return (isEven, dftbuffer, X)
+    
